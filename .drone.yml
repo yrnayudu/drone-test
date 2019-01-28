@@ -1,10 +1,11 @@
-# pipeline describes build steps
 pipeline:
-  # every entry in the pipeline describes a single build step
-  # you can use any name for the step
-  test:
-    # image used to create a container
-    image: golang:1.8-alpine
-    # commands executed in the container
+
+  my-build:
+    image: docker:18.03
+    environment:
+      - DOCKER_HOST=tcp://172.17.0.1:2375
     commands:
-      - "go test"
+      - docker build -t drone-test .
+    when:
+      branch: master
+      event: push
